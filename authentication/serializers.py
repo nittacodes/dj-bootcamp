@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from models import User
-
+from .models import User
 
 class RegisterSerializer(serializers.ModelSerializer):
     password=serializers.CharField(max_length=68, min_length=6, write_only=True)
@@ -10,4 +9,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields=['username', 'email', 'password']
 
     def validate(self, attrs):
-        return super().validate(attrs)
+        email= attrs.get("email", "")
+        username=attrs.get("username", "")
+        
+
+        if not username.isalnum():
+            raise serializers.ValidationError(' the username is not valid, should only contain alphanumeric')
+        return attrs
+
+    def create(self, validated_data):
+            return User.objects.create_user(**validated_data)   
+
+            

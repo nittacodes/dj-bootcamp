@@ -11,7 +11,7 @@ class UserManager(BaseUserManager):
         if email is None:
             raise TypeError('Users should have email')
 
-        user=self.model(username=username, email=self.normalize_email)
+        user=self.model(username=username, email=self.normalize_email(email))
         user.set_password(password)
         user.save()
         return user
@@ -39,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD='email'
     REQUIRED_FIELDS=[username]
 
-    objects = UserManager   
+    objects = UserManager()
 
     def __str__(self):
         return self.email
