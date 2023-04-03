@@ -26,16 +26,16 @@ SECRET_KEY = 'django-insecure-uk=thvr!da)shtt!@=w319v_#!rv6egp52xk%2!3sex(6(pwm_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL='authentication.User'
 
 REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
- 
+
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
 
 }
 
@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'authentication',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt.token_blacklist',
+    'drf_yasg'
 ]
 
 
@@ -92,7 +93,7 @@ WSGI_APPLICATION = 'dj_bootcamp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -131,7 +132,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -141,5 +142,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_USE_TLS=True
 EMAIL_HOST='smtp.gmail.com'
 EMAIL_PORT=587
-EMAIL_HOST_USER=os.environ.get(EMAIL_HOST_USER)
-EMAIL_HOST_PASSWORD=os.environ.get(EMAIL_HOST_PASSWORD) 
+# EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD') 
+EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
