@@ -1,3 +1,5 @@
 venv
 lib
 bin
+db.sqlite3
+.env
