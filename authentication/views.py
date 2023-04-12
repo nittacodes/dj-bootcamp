@@ -45,13 +45,13 @@ class VerifyEmail(views.APIView):
     def get(self, request):
         token=request.GET.get('token')
         try:
-            payload=jwt.decode('token', settings.SECRET_KEY)
+            payload=jwt.decode(token, settings.SECRET_KEY)
             user=User.objects.get(id=payload['user_id'])
             if not user.is_verified:
                 user.is_verified = True
                 user.save()
             return Response({"email": "sucessfully activated"}, status=status.HTTP_200_OK)
-        except jwt.ExpiredSigmatureError as identifier:
+        except jwt.ExpiredSignatureError as identifier:
             return Response({"error": "link expired"}, status=status.HTTP_400_BAD_REQUEST)
         except jwt.exceptions.DecodeError as identifier:
             return Response({"error": "invalid token"}, status=status.HTTP_400_BAD_REQUEST)
@@ -59,8 +59,7 @@ class VerifyEmail(views.APIView):
 class LoginApiView(generics.GenericAPIView):
     serializer_class=LoginSerializer
     def post(self, request):
-        user=request
         serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
+        print(serializer)
+        serializer.is_valid(raise_exception=True) 
         return Response(serializer.data, status=status.HTTP_200_OK)
