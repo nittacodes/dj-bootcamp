@@ -52,15 +52,15 @@ class LoginSerializer(serializers.ModelSerializer):
         print(user)
         # import pdb
         # pdb.set_trace()
-        if not user.is_active:
-            raise AuthenticationFailed("Account disabled contact administartor")
         if not user:
             raise AuthenticationFailed('Invalid credentials bla bla, try again')
+        if not user.is_active:
+            raise AuthenticationFailed("Account disabled contact administartor")
+        
         if not user.is_verified:
             raise AuthenticationFailed("Kindly verify your account")       
         
-       
-        return {
+        return {    
             'email': user.email,
             'username': user.username,
             'tokens': user.tokens
