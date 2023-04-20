@@ -58,8 +58,9 @@ class VerifyEmail(views.APIView):
             
 class LoginApiView(generics.GenericAPIView):
     serializer_class=LoginSerializer
+   
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
-        print(serializer.is_valid)
         serializer.is_valid(raise_exception=True) 
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
